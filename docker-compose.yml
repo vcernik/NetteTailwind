@@ -1,0 +1,29 @@
+###############################################################################
+#                          Generated on phpdocker.io                          #
+###############################################################################
+
+version: '3.1'
+services:
+
+    webserver:
+        image: 'nginx:alpine'
+        working_dir: /app
+        volumes:
+            - '.:/app'
+            - './.scripts/phpdocker/nginx/nginx.conf:/etc/nginx/conf.d/default.conf'
+        ports:
+            - '80:80'
+
+    php-fpm:
+        build: .scripts/phpdocker/php-fpm
+        working_dir: /app
+        volumes:
+            - '.:/app'
+            - './.scripts/phpdocker/php-fpm/php-ini-overrides.ini:/etc/php/8.2/fpm/conf.d/99-overrides.ini'
+
+#    composer_installation:
+#      container_name: composer_installation
+#      image: composer
+#      volumes:
+#        - ./:/app
+#      command: composer install --ignore-platform-reqs
